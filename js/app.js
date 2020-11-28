@@ -1,61 +1,12 @@
-/* Queens: 
+import { enemy_divas_indie } from './modules/base-divas.mjs';
+import {
+    starter_divas,
+    enemy_divas
+} from './modules/initializations.mjs';
 
-Starter:
-Dua Lippa
-Camila Cabello
-Rebecca Black
+function startNewGame() {
+    console.log(starter_divas);
+    console.log(enemy_divas);
+}
 
-Classic:
-Mariah
-Whitney
-Dolly Parton
-Aretha Franklin
-Donna Summers
-Tina Turner
-Stevie Nicks
-Celine Dion
-Janet Jackson
-Cher
-
-Pop: 
-Gaga
-Ari
-Taylor
-Billie
-Nelly Furtado
-Kylie
-Katy Perry
-Britney
-Madona
-Miley
-Adele
-Cristina
-Gwent stefani
-J-Lo
-Pink
-Marina
-Beyonce
-
-Rap:
-Nicki
-Doja
-Megan D Stallion
-Iggy Azelia
-Lizzo
-FKA Twigs
-Missy Elliot
-Cardi B
-Ash Nikko
-
-Indie:
-Caroline Polachek
-Feist
-Tegan and Sarah
-Grimes
-Bjork
-St Vincent
-Lana del Rey
-Karen O
-Emily Haines
-Imogen Heap
-*/
+startNewGame();
