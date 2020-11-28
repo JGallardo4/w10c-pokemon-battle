@@ -23,9 +23,10 @@ function initializeDivas(source_array, type) {
 
     for (var d in source_array) {
         result.push({
-            diva: source_array[d],
+            name: source_array[d],
             type: type,
-            attack: getRandomInt(10, 50)
+            attack: getRandomInt(10, 50),
+            image: "media/singer.svg"
         });
     };
 
