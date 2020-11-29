@@ -9,7 +9,8 @@ import {
     getRandomInt
 } from "./modules/utils.mjs";
 
-const all_divas = initializeDivas();
+let all_divas;
+let gameOver = 0;
 const game_screen = document.getElementById("game-screen");
 const diva_container = document.getElementById("diva-container");
 const battle_menu = document.getElementById("battle-menu");
@@ -20,7 +21,10 @@ start_button.addEventListener("click", function() {
     startNewGame();
 });
 
+startNewGame();
+
 function startNewGame() {
+    all_divas = initializeDivas();
     clearElement(diva_container);
     clearElement(battle_menu);
     header.innerText = "Choose your starter diva:";
@@ -74,7 +78,9 @@ function startBattle() {
     attack_button.classList.add("attack-button");
     attack_button.innerText = "Attack";
     attack_button.addEventListener("click", function() {
-        attack(player_diva, enemy_diva);
+        if (gameOver == 0) {
+            attack(player_diva, enemy_diva);
+        }
     });
     battle_menu.appendChild(attack_button);
 }
@@ -126,6 +132,8 @@ function endGame(isWin) {
     var message;
 
     message = isWin ? "Player wins" : "Player loses";
+
+    gameOver = 1;
 
     console.log(message);
 }

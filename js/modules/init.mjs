@@ -13,7 +13,6 @@ import {
 } from "./utils.mjs"
 
 function initializeDivas() {
-    // Create all the diva objects
     let starter_divas = initializeDivasFromArray(starter_divas_base, "pop");
 
     let enemy_divas = initializeDivasFromArray(enemy_divas_classic, "classic")
