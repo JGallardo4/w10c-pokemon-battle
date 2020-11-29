@@ -1,8 +1,6 @@
 import {
     initializeDivas
-} from "./modules/init.mjs"
-
-const all_divas = initializeDivas();
+} from "./modules/init.mjs";
 
 import {
     setCookie,
@@ -11,8 +9,11 @@ import {
     getRandomInt
 } from "./modules/utils.mjs";
 
+const all_divas = initializeDivas();
 const game_screen = document.getElementById("game-screen");
 const diva_container = document.getElementById("diva-container");
+const battle_menu = document.getElementById("battle-menu");
+const header = document.getElementById("header");
 
 let start_button = document.getElementById("start-button");
 start_button.addEventListener("click", function() {
@@ -20,6 +21,10 @@ start_button.addEventListener("click", function() {
 });
 
 function startNewGame() {
+    clearElement(diva_container);
+    clearElement(battle_menu);
+    header.innerText = "Choose your starter diva:";
+
     var starter_divas = all_divas["starter_divas"];
 
     for (var d in starter_divas) {
@@ -45,9 +50,8 @@ function addSelectButton(diva_card, id) {
 }
 
 function startBattle() {
-    while (diva_container.firstChild) {
-        diva_container.removeChild(diva_container.lastChild);
-    }
+    clearElement(diva_container);
+    header.innerText = "Battle!";
 
     var starter_divas = all_divas["starter_divas"];
     var enemy_divas = all_divas["enemy_divas"];
@@ -55,11 +59,79 @@ function startBattle() {
     var player_diva_id = getCookieValue("selectedDiva");
     var player_diva = starter_divas[player_diva_id]
     var player_diva_card = createDivaCard(player_diva);
+    player_diva_card.id = "player-diva";
     diva_container.appendChild(player_diva_card);
 
     var starter_divas = all_divas["enemy_divas"];
     var enemy_diva_id = getRandomInt(0, enemy_divas.length);
     var enemy_diva = enemy_divas[enemy_diva_id];
     var enemy_diva_card = createDivaCard(enemy_diva);
+    enemy_diva_card.id = "enemy-diva";
+    enemy_diva_card.classList.add("enemy-diva");
     diva_container.appendChild(enemy_diva_card);
+
+    var attack_button = document.createElement("button");
+    attack_button.classList.add("attack-button");
+    attack_button.innerText = "Attack";
+    attack_button.addEventListener("click", function() {
+        attack(player_diva, enemy_diva);
+    });
+    battle_menu.appendChild(attack_button);
+}
+
+function attack(player_diva, enemy_diva) {
+    var damage = 10 + (player_diva.attack / 100);
+    console.log("Player diva deals " + damage + "points");
+
+    console.log("enemy diva health = " + enemy_diva.health + " - " + damage);
+    enemy_diva.health = enemy_diva.health - damage;
+    console.log("enemy diva new health = " + enemy_diva.health);
+
+    updateScreen(player_diva, enemy_diva);
+
+    if (enemy_diva.health <= 0) {
+        endGame(1);
+    } else {
+        enemyAttack(player_diva, enemy_diva);
+    }
+}
+
+function updateScreen(player_diva, enemy_diva) {
+    var player_diva_card = document.getElementById("player-diva");
+    var enemy_diva_card = document.getElementById("enemy-diva");
+
+    var player_diva_health = player_diva_card.getElementsByClassName("health-stat");
+    player_diva_health[0].innerText = player_diva.health;
+
+    var enemy_diva_health = enemy_diva_card.getElementsByClassName("health-stat");
+    enemy_diva_health[0].innerText = enemy_diva.health;
+}
+
+function enemyAttack(player_diva, enemy_diva) {
+    var damage = 10 + (enemy_diva.attack / 100);
+    console.log("Enemy diva deals " + damage + "points");
+
+    console.log("Player diva health = " + player_diva.health + " - " + damage);
+    player_diva.health = player_diva.health - damage;
+    console.log("player diva new health = " + player_diva.health);
+
+    updateScreen(player_diva, enemy_diva);
+
+    if (player_diva.health <= 0) {
+        endGame(0);
+    };
+}
+
+function endGame(isWin) {
+    var message;
+
+    message = isWin ? "Player wins" : "Player loses";
+
+    console.log(message);
+}
+
+function clearElement(element) {
+    while (element.firstChild) {
+        element.removeChild(element.lastChild);
+    }
 }
