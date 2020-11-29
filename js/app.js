@@ -1,38 +1,65 @@
-import { enemy_divas_indie } from './modules/base-divas.mjs';
 import {
-    starter_divas,
-    enemy_divas
-} from './modules/initializations.mjs';
+    initializeDivas
+} from "./modules/init.mjs"
+
+const all_divas = initializeDivas();
+
+import {
+    setCookie,
+    getCookieValue,
+    createDivaCard,
+    getRandomInt
+} from "./modules/utils.mjs";
 
 const game_screen = document.getElementById("game-screen");
+const diva_container = document.getElementById("diva-container");
+
+let start_button = document.getElementById("start-button");
+start_button.addEventListener("click", function() {
+    startNewGame();
+});
 
 function startNewGame() {
-    showSelectionScreen();
-}
+    var starter_divas = all_divas["starter_divas"];
 
-function showSelectionScreen() {
-    initializeStarters();
-}
-
-function initializeStarters() {
     for (var d in starter_divas) {
-        game_screen.appendChild(createCard(starter_divas[d]));
+        let new_card = addSelectButton(
+            createDivaCard(starter_divas[d]),
+            d
+        );
+
+        diva_container.appendChild(new_card);
     }
 }
 
-function createCard(diva) {
-    var new_card = document.createElement("div");
-    new_card.classList.add("diva-card");
-    new_card.id = diva.name;
-
-    var new_image = document.createElement("object");
-    new_image.type = "image/svg+xml";
-    new_image.data = diva.image;
-    new_image.innerText = "Your browser does not support SVGs";
-
-    new_card.appendChild(new_image);
-
-    return new_card;
+function addSelectButton(diva_card, id) {
+    var button = document.createElement("button");
+    button.classList.add("select-diva-button");
+    button.innerText = "Select Diva";
+    button.addEventListener("click", function() {
+        setCookie("selectedDiva", id);
+        startBattle();
+    });
+    diva_card.appendChild(button);
+    return diva_card;
 }
 
-startNewGame();
+function startBattle() {
+    while (diva_container.firstChild) {
+        diva_container.removeChild(diva_container.lastChild);
+    }
+
+    var starter_divas = all_divas["starter_divas"];
+    var enemy_divas = all_divas["enemy_divas"];
+
+    var player_diva_id = getCookieValue("selectedDiva");
+    var player_diva = starter_divas[player_diva_id]
+    var player_diva_card = createDivaCard(player_diva);
+    diva_container.appendChild(player_diva_card);
+
+    var starter_divas = all_divas["enemy_divas"];
+    var enemy_diva_id = getRandomInt(0, enemy_divas.length);
+    var enemy_diva = enemy_divas[enemy_diva_id];
+    var enemy_diva_card = createDivaCard(enemy_diva);
+    diva_container.appendChild(enemy_diva_card);
+}

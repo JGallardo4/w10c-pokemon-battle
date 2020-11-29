@@ -1,5 +1,5 @@
 let starter_divas_base = [
-    "Dua Lippa",
+    "Dua Lipa",
     "Camila Cabello",
     "Rebecca Black"
 ];

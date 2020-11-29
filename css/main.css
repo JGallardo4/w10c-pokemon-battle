@@ -1,4 +1,42 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  list-style: none;
+}
+
 /* Layout */
+#game-screen {
+  min-height: 100vh;
+  width: 100%;
+}
+
+#diva-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  gap: 2rem;
+}
+
+.diva-card {
+  text-align: center;
+}
+
+.diva-card .diva-image-container {
+  width: 20rem;
+  height: 20rem;
+}
+
+.diva-card .diva-image-container .diva-image {
+  width: 100%;
+  height: auto;
+}
+
 /* Other Style */
 /* Fonts */
 /*# sourceMappingURL=main.css.map */
