@@ -90,7 +90,7 @@ function attack(player_diva, enemy_diva) {
     console.log("Player diva deals " + damage + "points");
 
     console.log("enemy diva health = " + enemy_diva.health + " - " + damage);
-    enemy_diva.health = enemy_diva.health - damage;
+    enemy_diva.health = Math.round(enemy_diva.health - damage);
     console.log("enemy diva new health = " + enemy_diva.health);
 
     updateScreen(player_diva, enemy_diva);
@@ -118,7 +118,7 @@ function enemyAttack(player_diva, enemy_diva) {
     console.log("Enemy diva deals " + damage + "points");
 
     console.log("Player diva health = " + player_diva.health + " - " + damage);
-    player_diva.health = player_diva.health - damage;
+    player_diva.health = Math.round(player_diva.health - damage);
     console.log("player diva new health = " + player_diva.health);
 
     updateScreen(player_diva, enemy_diva);
