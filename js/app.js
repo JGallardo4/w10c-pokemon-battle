@@ -79,27 +79,31 @@ function startBattle() {
     attack_button.innerText = "Attack";
     attack_button.addEventListener("click", function() {
         if (gameOver == 0) {
-            attack(player_diva, enemy_diva);
+            playerTurn(player_diva, enemy_diva);
         }
     });
     battle_menu.appendChild(attack_button);
 }
 
-function attack(player_diva, enemy_diva) {
-    var damage = 10 + (player_diva.attack / 100);
-    console.log("Player diva deals " + damage + "points");
-
-    console.log("enemy diva health = " + enemy_diva.health + " - " + damage);
-    enemy_diva.health = Math.round(enemy_diva.health - damage);
-    console.log("enemy diva new health = " + enemy_diva.health);
-
-    updateScreen(player_diva, enemy_diva);
+function playerTurn(player_diva, enemy_diva) {
+    attack(player_diva, enemy_diva);
 
     if (enemy_diva.health <= 0) {
         endGame(1);
     } else {
-        enemyAttack(player_diva, enemy_diva);
+        attack(enemy_diva, player_diva);
+        if (player_diva.health <= 0) {
+            endGame(0);
+        }
     }
+}
+
+function attack(attacker, attacked) {
+    var damage = 10 + (attacker.attack / 100);
+
+    attacked.health = Math.round(attacked.health - damage);
+
+    updateScreen(attacker, attacked);
 }
 
 function updateScreen(player_diva, enemy_diva) {
@@ -107,25 +111,10 @@ function updateScreen(player_diva, enemy_diva) {
     var enemy_diva_card = document.getElementById("enemy-diva");
 
     var player_diva_health = player_diva_card.getElementsByClassName("health-stat");
-    player_diva_health[0].innerText = player_diva.health;
+    player_diva_health[0].innerText = player_diva.health + "/100 hp";
 
     var enemy_diva_health = enemy_diva_card.getElementsByClassName("health-stat");
-    enemy_diva_health[0].innerText = enemy_diva.health;
-}
-
-function enemyAttack(player_diva, enemy_diva) {
-    var damage = 10 + (enemy_diva.attack / 100);
-    console.log("Enemy diva deals " + damage + "points");
-
-    console.log("Player diva health = " + player_diva.health + " - " + damage);
-    player_diva.health = Math.round(player_diva.health - damage);
-    console.log("player diva new health = " + player_diva.health);
-
-    updateScreen(player_diva, enemy_diva);
-
-    if (player_diva.health <= 0) {
-        endGame(0);
-    };
+    enemy_diva_health[0].innerText = enemy_diva.health + "/100hp";
 }
 
 function endGame(isWin) {
