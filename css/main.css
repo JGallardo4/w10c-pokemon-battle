@@ -8,6 +8,15 @@
 }
 
 /* Layout */
+#game-screen {
+  display: -ms-grid;
+  display: grid;
+}
+
+#start-button {
+  place-self: center;
+}
+
 #diva-container {
   display: -webkit-box;
   display: -ms-flexbox;
