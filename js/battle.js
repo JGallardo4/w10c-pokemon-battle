@@ -19,28 +19,32 @@ start_button.addEventListener("click", function() {
     document.location.href = "/index.html";
 });
 
-const diva_container = document.getElementById("diva-container");
+const player_diva_container = document.getElementById("player-diva");
+const enemy_diva_container = document.getElementById("enemy-diva");
 const header = document.getElementById("header");
 const battle_menu = document.getElementById("battle-menu");
+const attack_window = document.getElementById("attack-window");
+const player_attack_window = document.getElementById("player-attack");
+const enemy_attack_window = document.getElementById("enemy-attack");
 
 let gameOver = 0;
 
 startBattle();
 
 function startBattle() {
-    clearElement(diva_container);
+    clearElement(player_diva_container);
+    clearElement(enemy_diva_container);
     header.innerText = "Battle!";
 
     var player_diva = getPlayerDiva();
     var player_diva_card = createDivaCard(player_diva);
     player_diva_card.id = "player-diva";
-    diva_container.appendChild(player_diva_card);
+    player_diva_container.appendChild(player_diva_card);
 
     var enemy_diva = getEnemyDiva();
     var enemy_diva_card = createDivaCard(enemy_diva);
     enemy_diva_card.id = "enemy-diva";
-    enemy_diva_card.classList.add("enemy-diva");
-    diva_container.appendChild(enemy_diva_card);
+    enemy_diva_container.appendChild(enemy_diva_card);
 
     var attack_button = document.createElement("button");
     attack_button.classList.add("attack-button");
@@ -54,12 +58,12 @@ function startBattle() {
 }
 
 function playerTurn(player_diva, enemy_diva) {
-    attack(player_diva, enemy_diva);
+    player_attack_window.innerHTML = attack(player_diva, enemy_diva);
 
     if (enemy_diva.health <= 0) {
         endGame(1);
     } else {
-        attack(enemy_diva, player_diva);
+        enemy_attack_window.innerHTML = attack(enemy_diva, player_diva);
         if (player_diva.health <= 0) {
             endGame(0);
         }
@@ -78,9 +82,28 @@ function saveGame(player_diva, enemy_diva) {
 }
 
 function attack(attacker, attacked) {
-    var damage = 10 + (attacker.attack / 100);
+    var base_damage = 10 + (attacker.attack / 100);
+    var critical = getRandomInt(0, 100);
+    var bonus_modifier = 2;
+    var damage = base_damage;
+    var message = "";
+
+    if (critical >= 75) {
+        message += "Critical strike!<br>";
+        damage = Math.round(
+            base_damage + (base_damage * bonus_modifier)
+        );
+    }
+
+    message +=
+        attacker.name +
+        " does " +
+        damage +
+        " damage<br>";
 
     attacked.health = Math.round(attacked.health - damage);
+
+    return message;
 }
 
 function updateScreen(player_diva, enemy_diva) {
@@ -95,11 +118,11 @@ function updateScreen(player_diva, enemy_diva) {
 }
 
 function endGame(isWin) {
-    var message;
+    var message = document.createElement("p");
 
-    message = isWin ? "Player wins" : "Player loses";
+    message.innerText = isWin ? "Player wins" : "Player loses";
 
     gameOver = 1;
 
-    console.log(message);
+    attack_window.appendChild(message);
 }

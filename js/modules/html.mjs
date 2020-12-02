@@ -50,6 +50,9 @@ function createDivaCard(diva) {
     var image_container = document.createElement("div");
     image_container.classList.add("diva-image-container");
     var new_image = document.createElement("object");
+    // var new_image = document.createElement("img");
+    // new_image.src = diva.image;
+    // new_image.alt = diva.name;
     new_image.type = "image/svg+xml";
     new_image.data = diva.image;
     new_image.classList.add("diva-image");

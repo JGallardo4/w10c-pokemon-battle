@@ -24,6 +24,21 @@
     gap: 2rem;
 }
 
+#battle-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    #player-diva {
+        grid-column: 1;
+    }
+    #attack-window {
+        grid-column: 2;
+        place-self: center;
+    }
+    #enemy-diva {
+        grid-column: 3;
+    }
+}
+
 .diva-card {
     text-align: center;
     .diva-image-container {

@@ -27,6 +27,29 @@
   gap: 2rem;
 }
 
+#battle-container {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
+}
+
+#battle-container #player-diva {
+  -ms-grid-column: 1;
+  grid-column: 1;
+}
+
+#battle-container #attack-window {
+  -ms-grid-column: 2;
+  grid-column: 2;
+  place-self: center;
+}
+
+#battle-container #enemy-diva {
+  -ms-grid-column: 3;
+  grid-column: 3;
+}
+
 .diva-card {
   text-align: center;
 }
